@@ -1,0 +1,107 @@
+@import './singlecheckbox-map.scss';
+
+* {
+    font-family: var(--font-family);
+    box-sizing: border-box;
+}
+
+.checkbox-common {
+    .checkbox-behavior {
+        width: 50%;
+
+        .disabled-parent {
+            width: 58%;
+
+            .container {
+                width: 100%;
+                height: 48px;
+                background-color: var(--neutral-color);
+                display: flex;
+                align-items: center;
+                border-width: 1.2px;
+                padding: 0px 16px;
+
+                .checkbox-input {
+                    width: 20px;
+                    height: 20px;
+                    color: var(--checkbox-disabled-text);
+                    padding: 0px;
+                    margin: 0px
+                }
+
+                .label {
+                    font-size: 1.4rem;
+                    font-weight: var(--font-weight);
+                    color: var(--font-color);
+                    display: inline-block;
+                    padding-left: 8px;
+                }
+            }
+        }
+    }
+}
+
+.checkbox-unable {
+    padding: 16px;
+    display: flex;
+    background: #eee;
+    @extend .checkbox-common;
+}
+
+.checkbox-disabled {
+    padding: 16px;
+    display: flex;
+    background: #eee;
+    @extend .checkbox-common;
+}
+
+.checkbox-list {
+    display: inline-flex;
+    width: 100%;
+    padding: 16px;
+    background: #eee;
+
+    .checkbox-behavior {
+        width: 50%;
+
+        .parent {
+            width: 58%;
+            background: var(--neutral-color);
+
+            .container-list {
+                display: inline-flex;
+                width: 100%;
+                height: 48px;
+                padding: 0 16px;
+                align-items: center;
+                border-width: 1.2px;
+
+                .checkboxes {
+                    width: 20px;
+                    height: 20px;
+                    color: var(--checkbox-secondary-text);
+                    padding: 0px;
+                    margin: 0px;
+                }
+
+                .label1 {
+                    font-size: 1.4rem;
+                    font-weight: var(--font-weight);
+                    color: var(--font-color);
+                    display: inline-block;
+                    padding-left: 8px;
+                }
+
+                .select {
+                    padding-right: 65%;
+                }
+
+                .metadata {
+                    font-size: 1.4rem;
+                    font-weight: var(--font-weight);
+                    color: var(--tertiary-color);
+                }
+            }
+        }
+    }
+}

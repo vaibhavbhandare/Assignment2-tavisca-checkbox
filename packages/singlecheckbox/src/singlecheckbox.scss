@@ -7,10 +7,10 @@
 
 .checkbox-common {
     .checkbox-behavior {
-        width: 50%;
+        width: 100%;
 
         .disabled-parent {
-            width: 58%;
+            width: 100%;
 
             .container {
                 width: 100%;
@@ -43,29 +43,26 @@
 
 .checkbox-unable {
     padding: 16px;
-    display: flex;
     background: #eee;
     @extend .checkbox-common;
 }
 
 .checkbox-disabled {
     padding: 16px;
-    display: flex;
     background: #eee;
     @extend .checkbox-common;
 }
 
 .checkbox-list {
-    display: inline-flex;
     width: 100%;
     padding: 16px;
     background: #eee;
 
     .checkbox-behavior {
-        width: 50%;
+        width: 100%;
 
         .parent {
-            width: 58%;
+            width: 100%;
             background: var(--neutral-color);
 
             .container-list {
@@ -75,6 +72,7 @@
                 padding: 0 16px;
                 align-items: center;
                 border-width: 1.2px;
+                position: relative;
 
                 .checkboxes {
                     width: 20px;
@@ -93,13 +91,29 @@
                 }
 
                 .select {
-                    padding-right: 65%;
+                    padding-right: 90%;
                 }
 
                 .metadata {
                     font-size: 1.4rem;
                     font-weight: var(--font-weight);
                     color: var(--tertiary-color);
+                    position: absolute;
+                    right: 16px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 968px) {
+    .checkbox-list {
+        .checkbox-behavior {
+            .parent {
+                .container-list {
+                    .select {
+                     padding-right: 68%;
+                    }
                 }
             }
         }

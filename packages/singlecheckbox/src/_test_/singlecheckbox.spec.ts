@@ -59,6 +59,25 @@ describe('orxe-singlecheckbox', () => {
     expect(checkbox.firstUpdated()).toBeUndefined();
   });
 
+  it('should function checkboxSelect is call and state select false', () => {
+    let dummyEvent = {
+      target: {
+        previousElementSibling: { checked: true }
+      }
+    }
+    expect(checkbox.checkboxSelect(dummyEvent)).toBeUndefined();
+  });
+
+  it('should function checkboxSelect is call and state select true', () => {
+    let dummyEvent = {
+      target: {
+        previousElementSibling: { checked: false }
+      }
+    }
+    expect(checkbox.checkboxSelect(dummyEvent)).toBeUndefined();
+  });
+
+
 
   it('Should checkbox have attribute checkbox-unable', async () => {
     const checkboxContainer = getByTestId('checkbox-container');

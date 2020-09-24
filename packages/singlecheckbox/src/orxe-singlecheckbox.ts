@@ -18,12 +18,12 @@ export default class OrxeSinglecheckbox extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: 'required' })
   required = false;
 
-   /**
-   *
-   * @memberof OrxeSinglecheckbox
-   * This property will set the checkboxState to render html
-   * for checkbox enable or disabled field
-   */
+  /**
+  *
+  * @memberof OrxeSinglecheckbox
+  * This property will set the checkboxState to render html
+  * for checkbox enable or disabled field
+  */
   @property({ type: String, reflect: true, attribute: 'checkbox-state' })
   checkboxState = 'checkbox-disabled';
 
@@ -43,11 +43,11 @@ export default class OrxeSinglecheckbox extends LitElement {
   @property({ type: String, reflect: true, attribute: 'value' })
   value = 'false';
 
-   /**
-   *
-   * @memberof OrxeSinglecheckbox
-   * This property will set the checked for checkbox field
-   */
+  /**
+  *
+  * @memberof OrxeSinglecheckbox
+  * This property will set the checked for checkbox field
+  */
   @property({ type: Boolean, reflect: true, attribute: 'checked' })
   checked = false;
 
@@ -100,18 +100,28 @@ export default class OrxeSinglecheckbox extends LitElement {
   }
 
   /**
+  * Function that check target of previousElementSibling attribute state is disabled or not.
+  */
+  checkboxSelect(event: any): void {
+    this.isCheckboxSelected = event.target.previousElementSibling.checked;
+    if (this.isCheckboxSelected) {
+      event.target.previousElementSibling.checked = false;
+    } else {
+      event.target.previousElementSibling.checked = true;
+    }
+  }
+
+  /**
    * This method render the checkbox either enable or disabled state.
    */
 
   render() {
     return html`
     <div data-testId="checkbox-container" class="checkbox-unable">
-      <div class="checkbox-behavior">
-        <div class="disabled-parent">
+      <div class="disabled-parent">
         ${this.renderCheckbox()}
       </div>
     </div>
-  </div>
  `;
   }
 
@@ -124,16 +134,25 @@ export default class OrxeSinglecheckbox extends LitElement {
       return html`
       <div class="container" @click="${this.checkbox}">
         <input type="checkbox" id="checkbox1" class="checkbox-input"
-        value=${this.value} name=${this.name} required>
-        <label for=${this.name} class="label"> People 2 </label>
+         value=${this.value} name=${this.name} required>
+        <label for=${this.name} class="label"> <slot></slot> </label>
       </div>
     `;
     } else if (this.checkboxState == "checkbox-disabled") {
       return html`
       <div class="container" @click="${this.checkboxDisabled}">
         <input type="checkbox" id="checkbox1" class="checkbox-input"
-        disabled value=${this.value} name=${this.name}>
-        <label for=${this.name} class="label" disabled required> People 2 </label>
+         disabled value=${this.value} name=${this.name}>
+        <label for=${this.name} class="label" disabled required> <slot></slot> </label>
+      </div>
+    `;
+    } else if (this.checkboxState == "checkbox-group") {
+      return html`
+      <div class="container" @click="${this.checkbox}">
+        <input type="checkbox" id="checkbox1" class="checkbox-input"
+          value=${this.value} name=${this.name}>
+        <label for="checkbox" class="label select" @click="${this.checkboxSelect}"> <slot></slot> </label>
+        <slot class="slot-data" name="data"></slot>
       </div>
     `;
     }

@@ -4,22 +4,82 @@ import styles from './singlecheckbox-css';
 @customElement('orxe-singlecheckbox')
 export default class OrxeSinglecheckbox extends LitElement {
 
-   /**
-   * Following property are used to give the initial and default value.
-   */
-
-  @property({type: Boolean})
+  /**
+  * Following property are used to give the initial and default value.
+  */
+  @property({ type: Boolean })
   isCheckboxSelected: any;
-  @property({type: String})
-  metaData = '(label)';
-  @property({type: Array})
-  checkboxList = ['checkbox', 'checkbox', 'checkbox'];
+
+  /**
+   *
+   * @memberof OrxeSinglecheckbox
+   * This property will set the required for checkbox field
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'required' })
+  required = false;
+
+   /**
+   *
+   * @memberof OrxeSinglecheckbox
+   * This property will set the checkboxState to render html
+   * for checkbox enable or disabled field
+   */
+  @property({ type: String, reflect: true, attribute: 'checkbox-state' })
+  checkboxState = 'checkbox-disabled';
+
+  /**
+   *
+   * @memberof OrxeSinglecheckbox
+   * This property will set the name for checkbox field
+   */
+  @property({ type: String, reflect: true, attribute: 'name' })
+  name = 'checkbox';
+
+  /**
+   *
+   * @memberof OrxeSinglecheckbox
+   * This property will set the value for checkbox field
+   */
+  @property({ type: String, reflect: true, attribute: 'value' })
+  value = 'false';
+
+   /**
+   *
+   * @memberof OrxeSinglecheckbox
+   * This property will set the checked for checkbox field
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'checked' })
+  checked = false;
+
+  /**
+   *
+   * @memberof OrxeSinglecheckbox
+   * This property will set the disabled for checkbox field
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'disabled' })
+  disabled = false;
+
+  firstUpdated() {
+    if (this.shadowRoot) {
+      let elementUnable = this.shadowRoot.getElementById("checkbox1");
+      if (elementUnable) {
+        if (this.checked) {
+          elementUnable.setAttribute("checked", "checked")
+          elementUnable.setAttribute("aria-checked", "true")
+        }
+        else {
+          elementUnable.removeAttribute("checked")
+          elementUnable.setAttribute("aria-checked", "false")
+        }
+      }
+    }
+  }
 
   /**
    * Function that check target of firstElementChild attribute state is checked.
    */
 
-  private checkbox(event: any): void {
+  checkbox(event: any): void {
     this.isCheckboxSelected = event.target.firstElementChild.checked;
     if (this.isCheckboxSelected) {
       event.target.firstElementChild.checked = false;
@@ -32,7 +92,7 @@ export default class OrxeSinglecheckbox extends LitElement {
    * Function that check target of firstElementChild attribute state is disabled.
    */
 
-  private checkboxDisabled(event: any): void {
+  checkboxDisabled(event: any): void {
     this.isCheckboxSelected = event.target.firstElementChild.disabled;
     if (this.isCheckboxSelected) {
       event.target.firstElementChild.disabled = true;
@@ -40,90 +100,44 @@ export default class OrxeSinglecheckbox extends LitElement {
   }
 
   /**
-   * Function that check target of previousElementSibling attribute state is checked.
-   */
-
-  private checkboxSelect(event: any): void {
-    this.isCheckboxSelected = event.target.previousElementSibling.checked;
-    if (this.isCheckboxSelected) {
-      event.target.previousElementSibling.checked = false;
-    } else {
-      event.target.previousElementSibling.checked = true;
-    }
-  }
-
-  /**
-   * This method render the checkbox with single and group checkbox.
+   * This method render the checkbox either enable or disabled state.
    */
 
   render() {
     return html`
-  <div class="checkbox-unable">
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Selected</h1>
-      <div class="disabled-parent">
-        <div class="container" @click="${this.checkbox}">
-          <input type="checkbox"  class="checkbox-input" value="true" checked>
-          <label for="checkbox" class="label"> Checkbox </label>
-        </div>
-      </div>
-    </div>
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Unselected</h1>
-      <div class="disabled-parent">
-        <div class="container" @click="${this.checkbox}">
-         <input type="checkbox"  class="checkbox-input" value="true">
-         <label for="checkbox" class="label"> Checkbox </label>
-        </div>
+    <div data-testId="checkbox-container" class="checkbox-unable">
+      <div class="checkbox-behavior">
+        <div class="disabled-parent">
+        ${this.renderCheckbox()}
       </div>
     </div>
   </div>
-  <div data-testId="checkbox-container" class="checkbox-disabled">
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Selected Disabled</h1>
-      <div class="disabled-parent">
-        <div class="container" @click="${this.checkboxDisabled}">
-          <input type="checkbox"  class="checkbox-input" value="true" disabled checked>
-          <label for="checkbox" class="label" disabled> Checkbox </label>
-        </div>
-      </div>
-    </div>
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Unselected Disabled</h1>
-      <div class="disabled-parent">
-        <div class="container" @click="${this.checkboxDisabled}">
-         <input type="checkbox"  class="checkbox-input" value="true" disabled>
-         <label for="checkbox" class="label" disabled> Checkbox </label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="checkbox-list">
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Button Behavior</h1>
-      <div class="parent">
-        <div class="container-list" @click="${this.checkbox}">
-          <input type="checkbox" class="checkboxes" value="true" checked>
-          <label for="checkbox" class="label1"> Checkbox </label>
-        </div>
-      </div>
-    </div>
-    <div class="checkbox-behavior">
-      <h1>Group Checkbox Buttons Behavior</h1>
-      <div class="parent">
-        ${this.checkboxList.map((options) => html`
-         <div class="container-list">
-           <input type="checkbox" class="checkboxes" value="true">
-           <label for="checkbox" class="label1 select" @click="${this.checkboxSelect}"> ${options} </label>
-           <span class="metadata">${this.metaData}</span>
-         </div>
-        `)}
-        </div>
-      </div>
-    </div>
-  </div>`;
+ `;
   }
 
+  /**
+  * This method render the checkbox either disabled or not disabled.
+  */
+
+  renderCheckbox() {
+    if (this.checkboxState == "checkbox-enable") {
+      return html`
+      <div class="container" @click="${this.checkbox}">
+        <input type="checkbox" id="checkbox1" class="checkbox-input"
+        value=${this.value} name=${this.name} required>
+        <label for=${this.name} class="label"> People 2 </label>
+      </div>
+    `;
+    } else if (this.checkboxState == "checkbox-disabled") {
+      return html`
+      <div class="container" @click="${this.checkboxDisabled}">
+        <input type="checkbox" id="checkbox1" class="checkbox-input"
+        disabled value=${this.value} name=${this.name}>
+        <label for=${this.name} class="label" disabled required> People 2 </label>
+      </div>
+    `;
+    }
+  }
 
   /**
    *  Getting styles from components custom scss file

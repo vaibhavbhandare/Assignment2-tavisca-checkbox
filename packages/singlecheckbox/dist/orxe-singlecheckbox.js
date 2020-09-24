@@ -12,8 +12,27 @@ import styles from './singlecheckbox-css';
 let OrxeSinglecheckbox = class OrxeSinglecheckbox extends LitElement {
     constructor() {
         super(...arguments);
-        this.metaData = '(label)';
-        this.checkboxList = ['checkbox', 'checkbox', 'checkbox'];
+        this.required = false;
+        this.checkboxState = 'checkbox-disabled';
+        this.name = 'checkbox';
+        this.value = 'false';
+        this.checked = false;
+        this.disabled = false;
+    }
+    firstUpdated() {
+        if (this.shadowRoot) {
+            let elementUnable = this.shadowRoot.getElementById("checkbox1");
+            if (elementUnable) {
+                if (this.checked) {
+                    elementUnable.setAttribute("checked", "checked");
+                    elementUnable.setAttribute("aria-checked", "true");
+                }
+                else {
+                    elementUnable.removeAttribute("checked");
+                    elementUnable.setAttribute("aria-checked", "false");
+                }
+            }
+        }
     }
     checkbox(event) {
         this.isCheckboxSelected = event.target.firstElementChild.checked;
@@ -30,81 +49,36 @@ let OrxeSinglecheckbox = class OrxeSinglecheckbox extends LitElement {
             event.target.firstElementChild.disabled = true;
         }
     }
-    checkboxSelect(event) {
-        this.isCheckboxSelected = event.target.previousElementSibling.checked;
-        if (this.isCheckboxSelected) {
-            event.target.previousElementSibling.checked = false;
-        }
-        else {
-            event.target.previousElementSibling.checked = true;
-        }
-    }
     render() {
         return html `
-  <div class="checkbox-unable">
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Selected</h1>
-      <div class="disabled-parent">
-        <div class="container" @click="${this.checkbox}">
-          <input type="checkbox"  class="checkbox-input" value="true" checked>
-          <label for="checkbox" class="label"> Checkbox </label>
-        </div>
-      </div>
-    </div>
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Unselected</h1>
-      <div class="disabled-parent">
-        <div class="container" @click="${this.checkbox}">
-         <input type="checkbox"  class="checkbox-input" value="true">
-         <label for="checkbox" class="label"> Checkbox </label>
-        </div>
+    <div data-testId="checkbox-container" class="checkbox-unable">
+      <div class="checkbox-behavior">
+        <div class="disabled-parent">
+        ${this.renderCheckbox()}
       </div>
     </div>
   </div>
-  <div data-testId="checkbox-container" class="checkbox-disabled">
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Selected Disabled</h1>
-      <div class="disabled-parent">
-        <div class="container" @click="${this.checkboxDisabled}">
-          <input type="checkbox"  class="checkbox-input" value="true" disabled checked>
-          <label for="checkbox" class="label" disabled> Checkbox </label>
-        </div>
+ `;
+    }
+    renderCheckbox() {
+        if (this.checkboxState == "checkbox-enable") {
+            return html `
+      <div class="container" @click="${this.checkbox}">
+        <input type="checkbox" id="checkbox1" class="checkbox-input"
+        value=${this.value} name=${this.name} required>
+        <label for=${this.name} class="label"> People 2 </label>
       </div>
-    </div>
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Unselected Disabled</h1>
-      <div class="disabled-parent">
-        <div class="container" @click="${this.checkboxDisabled}">
-         <input type="checkbox"  class="checkbox-input" value="true" disabled>
-         <label for="checkbox" class="label" disabled> Checkbox </label>
-        </div>
+    `;
+        }
+        else if (this.checkboxState == "checkbox-disabled") {
+            return html `
+      <div class="container" @click="${this.checkboxDisabled}">
+        <input type="checkbox" id="checkbox1" class="checkbox-input"
+        disabled value=${this.value} name=${this.name}>
+        <label for=${this.name} class="label" disabled required> People 2 </label>
       </div>
-    </div>
-  </div>
-  <div class="checkbox-list">
-    <div class="checkbox-behavior">
-      <h1>Single Checkbox Button Behavior</h1>
-      <div class="parent">
-        <div class="container-list" @click="${this.checkbox}">
-          <input type="checkbox" class="checkboxes" value="true" checked>
-          <label for="checkbox" class="label1"> Checkbox </label>
-        </div>
-      </div>
-    </div>
-    <div class="checkbox-behavior">
-      <h1>Group Checkbox Buttons Behavior</h1>
-      <div class="parent">
-        ${this.checkboxList.map((options) => html `
-         <div class="container-list">
-           <input type="checkbox" class="checkboxes" value="true">
-           <label for="checkbox" class="label1 select" @click="${this.checkboxSelect}"> ${options} </label>
-           <span class="metadata">${this.metaData}</span>
-         </div>
-        `)}
-        </div>
-      </div>
-    </div>
-  </div>`;
+    `;
+        }
     }
 };
 OrxeSinglecheckbox.styles = styles;
@@ -113,13 +87,29 @@ __decorate([
     __metadata("design:type", Object)
 ], OrxeSinglecheckbox.prototype, "isCheckboxSelected", void 0);
 __decorate([
-    property({ type: String }),
+    property({ type: Boolean, reflect: true, attribute: 'required' }),
     __metadata("design:type", Object)
-], OrxeSinglecheckbox.prototype, "metaData", void 0);
+], OrxeSinglecheckbox.prototype, "required", void 0);
 __decorate([
-    property({ type: Array }),
+    property({ type: String, reflect: true, attribute: 'checkbox-state' }),
     __metadata("design:type", Object)
-], OrxeSinglecheckbox.prototype, "checkboxList", void 0);
+], OrxeSinglecheckbox.prototype, "checkboxState", void 0);
+__decorate([
+    property({ type: String, reflect: true, attribute: 'name' }),
+    __metadata("design:type", Object)
+], OrxeSinglecheckbox.prototype, "name", void 0);
+__decorate([
+    property({ type: String, reflect: true, attribute: 'value' }),
+    __metadata("design:type", Object)
+], OrxeSinglecheckbox.prototype, "value", void 0);
+__decorate([
+    property({ type: Boolean, reflect: true, attribute: 'checked' }),
+    __metadata("design:type", Object)
+], OrxeSinglecheckbox.prototype, "checked", void 0);
+__decorate([
+    property({ type: Boolean, reflect: true, attribute: 'disabled' }),
+    __metadata("design:type", Object)
+], OrxeSinglecheckbox.prototype, "disabled", void 0);
 OrxeSinglecheckbox = __decorate([
     customElement('orxe-singlecheckbox')
 ], OrxeSinglecheckbox);

@@ -148,7 +148,7 @@ export default class OrxeSinglecheckbox extends LitElement {
     `;
     } else if (this.checkboxState == "checkbox-group") {
       return html`
-      <div class="container" @click="${this.checkbox}">
+      <div class="container container-group" @click="${this.checkbox}">
         <input type="checkbox" id="checkbox1" class="checkbox-input"
           value=${this.value} name=${this.name}>
         <label for="checkbox" class="label select" @click="${this.checkboxSelect}"> <slot></slot> </label>

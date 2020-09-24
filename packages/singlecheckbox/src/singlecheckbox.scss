@@ -37,7 +37,9 @@
             }
 
             .select {
-                padding-right: 91%;
+                vertical-align: top;
+                display: block;
+                width: 100%;
             }
 
             .slot-data {
@@ -46,6 +48,7 @@
                 color: var(--tertiary-color);
                 position: absolute;
                 right: 16px;
+                float: right;
             }
         }
     }
@@ -53,28 +56,4 @@
 
 .checkbox-unable {
     @extend .checkbox-common;
-}
-
-@media (max-width: 1125px) {
-    .checkbox-unable {
-            .disabled-parent {
-                .container {
-                    .select {
-                     padding-right: 89%;
-                }
-            }
-        }
-    }
-}
-
-@media (max-width: 600px) {
-    .checkbox-unable {
-            .disabled-parent {
-                .container {
-                    .select {
-                     padding-right: 62%;
-                }
-            }
-        }
-    }
 }

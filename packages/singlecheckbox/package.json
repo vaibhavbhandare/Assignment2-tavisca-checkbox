@@ -1,6 +1,6 @@
 {
     "name": "@checkbox/singlecheckbox",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "Orxe Component",
     "main": "dist/index.js",
     "types": "dist/types",
